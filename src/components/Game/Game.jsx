@@ -10,11 +10,11 @@ export class Game extends Component {
             'https://picsum.photos/id/1003/1181/1772',
             'https://picsum.photos/id/1002/1181/1772'
         ],
-    
+        flippedCards: {},
     }
 
     render() {
-        const { stack } = this.state;
+        const { stack, flippedCards } = this.state;
         return (
             <div className="game">
                 {stack.map((image, i) => (
@@ -22,7 +22,8 @@ export class Game extends Component {
                         key={i}
                         index={i}
                         onFlip={this.onFlip}
-                        image={image} isFlipped={true}
+                        image={image}
+                        isFlipped={flippedCards[i]}
                     />
                 ))
                 }
@@ -31,6 +32,13 @@ export class Game extends Component {
     }
 
     onFlip = (index) => {
-        console.log({index});
+        const {flippedCards} = this.state;
+        const modifiedCards = {
+            ...flippedCards,
+            [index]: true,
+        };
+        this.setState({
+            flippedCards: modifiedCards,
+        });
     }
 }
