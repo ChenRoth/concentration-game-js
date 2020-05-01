@@ -94,6 +94,6 @@ export class Game extends Component {
             this.setState({
                 currentFlippedCards: [],
             });
-        }, 2000);
+        }, 1000);
     }
 }
