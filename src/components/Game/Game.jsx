@@ -36,13 +36,61 @@ export class Game extends Component {
     }
 
     onFlip = (index) => {
-        const { currentFlippedCards } = this.state;
-        if (currentFlippedCards.length === 2) {
-            return;
+        const { currentFlippedCards, stack } = this.state;
+        if (currentFlippedCards.length === 0) {
+            this.flipFirstCard(index);
+        } else if (currentFlippedCards.length === 1) {
+            // get the first (previously) flipped card
+            const firstCardIndex = currentFlippedCards[0];
+            const firstCard = stack[firstCardIndex];
+
+            // get the currently flipped card
+            const secondCard = stack[index];
+
+            const doCardsMatch = firstCard === secondCard;
+            if (doCardsMatch) {
+                this.addMatchingPair(firstCardIndex, index);
+            } else {
+                this.handleMismatchedPair(index);
+            }
         }
+    }
+
+    flipFirstCard = (index) => {
+        const { currentFlippedCards } = this.state;
         const modifiedCurrentFlippedCards = [...currentFlippedCards, index];
         this.setState({
             currentFlippedCards: modifiedCurrentFlippedCards,
         });
+    }
+
+    addMatchingPair = (firstIndex, secondIndex) => {
+        const { flippedCards } = this.state;
+        const modifiedFlippedCards = {
+            ...flippedCards,
+            [firstIndex]: true,
+            [secondIndex]: true,
+        };
+        this.setState({
+            flippedCards: modifiedFlippedCards,
+            currentFlippedCards: [],
+        });
+    }
+
+    handleMismatchedPair = (index) => {
+        const { currentFlippedCards } = this.state;
+        const modifiedCurrentFlippedCards = [...currentFlippedCards, index];
+        this.setState({
+            currentFlippedCards: modifiedCurrentFlippedCards,
+        })
+        this.flipBackCurrentCards();
+    }
+
+    flipBackCurrentCards = () => {
+        setTimeout(() => {
+            this.setState({
+                currentFlippedCards: [],
+            });
+        }, 2000);
     }
 }
