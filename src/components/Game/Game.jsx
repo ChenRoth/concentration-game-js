@@ -11,34 +11,38 @@ export class Game extends Component {
             'https://picsum.photos/id/1002/1181/1772'
         ],
         flippedCards: {},
+        currentFlippedCards: [],
     }
 
     render() {
-        const { stack, flippedCards } = this.state;
+        const { stack, currentFlippedCards, flippedCards } = this.state;
         return (
             <div className="game">
-                {stack.map((image, i) => (
-                    <Card
-                        key={i}
-                        index={i}
-                        onFlip={this.onFlip}
-                        image={image}
-                        isFlipped={flippedCards[i]}
-                    />
-                ))
+                {stack.map((image, i) => {
+                    const isFlipped = flippedCards[i] || currentFlippedCards.includes(i);
+                    return (
+                        <Card
+                            key={i}
+                            index={i}
+                            onFlip={this.onFlip}
+                            image={image}
+                            isFlipped={isFlipped}
+                        />
+                    );
+                })
                 }
             </div>
         )
     }
 
     onFlip = (index) => {
-        const {flippedCards} = this.state;
-        const modifiedCards = {
-            ...flippedCards,
-            [index]: true,
-        };
+        const { currentFlippedCards } = this.state;
+        if (currentFlippedCards.length === 2) {
+            return;
+        }
+        const modifiedCurrentFlippedCards = [...currentFlippedCards, index];
         this.setState({
-            flippedCards: modifiedCards,
+            currentFlippedCards: modifiedCurrentFlippedCards,
         });
     }
 }
