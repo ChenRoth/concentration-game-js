@@ -19,20 +19,22 @@ export class Game extends Component {
         const { stack, currentFlippedCards, flippedCards, points } = this.state;
         return (
             <div className="game">
-                <p>Points: {points}</p>
-                {stack.map((image, i) => {
-                    const isFlipped = flippedCards[i] || currentFlippedCards.includes(i);
-                    return (
-                        <Card
-                            key={i}
-                            index={i}
-                            onFlip={this.onFlip}
-                            image={image}
-                            isFlipped={isFlipped}
-                        />
-                    );
-                })
-                }
+                <div className="points">Points: {points}</div>
+                <div className="cards">
+                    {stack.map((image, i) => {
+                        const isFlipped = flippedCards[i] || currentFlippedCards.includes(i);
+                        return (
+                            <Card
+                                key={i}
+                                index={i}
+                                onFlip={this.onFlip}
+                                image={image}
+                                isFlipped={isFlipped}
+                            />
+                        );
+                    })
+                    }
+                </div>
             </div>
         )
     }
