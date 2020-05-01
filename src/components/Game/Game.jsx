@@ -12,12 +12,14 @@ export class Game extends Component {
         ],
         flippedCards: {},
         currentFlippedCards: [],
+        points: 0,
     }
 
     render() {
-        const { stack, currentFlippedCards, flippedCards } = this.state;
+        const { stack, currentFlippedCards, flippedCards, points } = this.state;
         return (
             <div className="game">
+                <p>Points: {points}</p>
                 {stack.map((image, i) => {
                     const isFlipped = flippedCards[i] || currentFlippedCards.includes(i);
                     return (
@@ -65,7 +67,7 @@ export class Game extends Component {
     }
 
     addMatchingPair = (firstIndex, secondIndex) => {
-        const { flippedCards } = this.state;
+        const { points, flippedCards } = this.state;
         const modifiedFlippedCards = {
             ...flippedCards,
             [firstIndex]: true,
@@ -74,6 +76,7 @@ export class Game extends Component {
         this.setState({
             flippedCards: modifiedFlippedCards,
             currentFlippedCards: [],
+            points: points + 1,
         });
     }
 
