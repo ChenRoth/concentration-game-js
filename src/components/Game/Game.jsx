@@ -1,24 +1,36 @@
 import React, { Component } from 'react'
+import './Game.css';
 import { Card } from '../Card/Card'
 
 export class Game extends Component {
     state = {
-        isCardFlipped: false
+        stack: [
+            'https://picsum.photos/id/1003/1181/1772',
+            'https://picsum.photos/id/1002/1181/1772',
+            'https://picsum.photos/id/1003/1181/1772',
+            'https://picsum.photos/id/1002/1181/1772'
+        ],
+    
     }
 
     render() {
-        const { isCardFlipped } = this.state;
+        const { stack } = this.state;
         return (
-            <div>
-                <Card
-                    onFlip={this.onFlip}
-                    image="https://picsum.photos/id/1003/1181/1772" isFlipped={isCardFlipped} index={0}
-                />
+            <div className="game">
+                {stack.map((image, i) => (
+                    <Card
+                        key={i}
+                        index={i}
+                        onFlip={this.onFlip}
+                        image={image} isFlipped={true}
+                    />
+                ))
+                }
             </div>
         )
     }
 
     onFlip = (index) => {
-        this.setState({isCardFlipped: true})
+        console.log({index});
     }
 }
